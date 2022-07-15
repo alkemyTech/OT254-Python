@@ -26,7 +26,13 @@ def check_db_connection():
             retry_count = retry_count + 1
             #s espera 1 minuto antes de el siguiente reintento
             time.sleep(60)
-        
+
+
+default_args = {
+    'retries':5,
+    'retry_delay': timedelta(seconds=30)
+}
+
 
 #se definen las propiedades del dag.
 with DAG(
