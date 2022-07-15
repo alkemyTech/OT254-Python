@@ -18,7 +18,7 @@ def check_db_connection():
             #se comprueba si existen las tablas, de no ser asi se reeintenta la conexion
             if insp.has_table("flores_comahue") and insp.has_table("salvador_villa_maria"):
                 retry_flag = False
-            else : 
+            else: 
                 retry_count = retry_count + 1 
                 time.sleep(60)
         except exc.SQLAlchemyError:
