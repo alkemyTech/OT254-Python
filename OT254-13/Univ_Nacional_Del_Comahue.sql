@@ -14,6 +14,6 @@ split_part(name, ' ', 2) AS last_name,
        correo_electronico 
 
 FROM public.flores_comahue
-WHERE (universidad = 'UNIV. NACIONAL DEL COMAHUE')  -- se filtran los registros por universidad del salvador.
+WHERE (universidad = 'UNIV. NACIONAL DEL COMAHUE')  -- se filtran los registros por universidad nacional del comahue .
 -- se comprueba si los registros se encuentran entre las fechas requeridas.
 AND (fecha_de_inscripcion >= '2020-09-01') AND (fecha_de_inscripcion <= '2021-02-01');
