@@ -23,7 +23,7 @@ while error_control < 5:
         df_codigos_postales = pd.read_csv('codigos_postales.csv')       
         #se une el df con los codigos postales con el dataframe de la universidad del salvador
         df_unv_del_salvador = pd.merge(df_unv_del_salvador,df_codigos_postales, how = 'left')
-        #se remove la columna localidad del df de la universidad del salvador ya que no es requerida
+        #se remuve la columna localidad del df de la universidad del salvador ya que no es requerida
         df_unv_del_salvador = df_unv_del_salvador.drop(['localidad'], axis=1)
         #Se imprimen los df en pantalla
         print(df_unv_Comahue)
