@@ -14,3 +14,7 @@ def procesar_datos():
         #Se ejecutan laa consultas sql correspondientes a cada universidad y se genera un dataframe para cada una.
         df_unv_Comahue = pd.read_sql(univ_nacional_del_comahue_sql, config('DB_DATA_CONNECT'))
         df_unv_del_salvador = pd.read_sql(universidad_del_salvador_sql, config('DB_DATA_CONNECT'))
+
+        #se guardan los datos en archivos csv detrno de la carpeta files
+        df_unv_Comahue.to_csv (r'.\files\unv_Comahue.csv', index = None, header=True) 
+        df_unv_del_salvador.to_csv (r'.\files\unv_del_salvador.csv', index = None, header=True) 
