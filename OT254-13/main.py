@@ -10,7 +10,6 @@ Univ_Nacional_Del_Comahue_sql = file.read()
 file = open('Universidad_Del_Salvador.sql','r' )
 Universidad_Del_Salvador_sql = file.read()
 
-
 #variavle para controlar la cantidad de errores producidos
 error_control = 0
 
