@@ -3,12 +3,13 @@ from decouple import config
 
 
 def procesar_unv_del_salvador():
+    
     #se lee el archvio sql correspondiente a la universidad del salvador  
-    file = open('Universidad_Del_Salvador.sql','r' )
-    Universidad_Del_Salvador_sql = file.read()
+    file = open('Universidad_Del_Salvador.sql', 'r')
+    universidad_del_salvador_sql = file.read()
    
     #Se ejecutan laa consulta sql y se genera un dataframe .
-    df_unv_del_salvador = pd.read_sql(Universidad_Del_Salvador_sql, config('DB_DATA_CONNECT'))
+    df_unv_del_salvador = pd.read_sql(universidad_del_salvador_sql, config('DB_DATA_CONNECT'))
 
     #se convierte el texo a minusculas de todas las columnas.
     df_unv_del_salvador = df_unv_del_salvador.astype(str).apply(lambda x: x.str.lower())
@@ -42,11 +43,11 @@ def procesar_unv_del_salvador():
 
 def procesar_unv_Comahue():
      #se lee el archvio sql correspondiente a la universidad nacional de comahue.
-    file = open('Univ_Nacional_Del_Comahue.sql','r' )
-    Univ_Nacional_Del_Comahue_sql = file.read()
+    file = open('Univ_Nacional_Del_Comahue.sql', 'r')
+    univ_nacional_del_comahue_sql = file.read()
 
     #Se ejecutan laa consulta sql y se genera un dataframe .
-    df_unv_Comahue = pd.read_sql(Univ_Nacional_Del_Comahue_sql, config('DB_DATA_CONNECT'))
+    df_unv_Comahue = pd.read_sql(univ_nacional_del_comahue_sql, config('DB_DATA_CONNECT'))
 
     #se renombran las columnas necesarias
     df_unv_Comahue.rename(columns={          
