@@ -5,7 +5,6 @@ from airflow.operators.dummy import DummyOperator
 #se definen los parametro para la configuracion de los log
 logging.basicConfig(filename='info.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s',datefmt='%d-%m-%y', level=logging.INFO)
 
-
 with DAG(
     'logging_dag',
     description='logging dag',
