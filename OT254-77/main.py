@@ -7,7 +7,7 @@ def procesar_unv_del_salvador():
     file = open('Universidad_Del_Salvador.sql', 'r')
     universidad_del_salvador_sql = file.read()
 
-    # Se ejecutan laa consulta sql y se genera un dataframe .
+    # Se ejecutan laa consulta sql y se genera un dataframe.
     df_unv_del_salvador = pd.read_sql(universidad_del_salvador_sql, config('DB_DATA_CONNECT'))
 
     # se convierte el texo a minusculas de todas las columnas.
@@ -23,7 +23,7 @@ def procesar_unv_del_salvador():
         'correo_electronico' : 'email'
         }, inplace=True)
 
-  
+
     # se crea un dataframe con el archivo auxiliar de codigos postales
     df_codigos_postales = pd.read_csv('codigos_postales.csv')       
     # se une el df con los codigos postales con el dataframe de la universidad del salvador
@@ -49,8 +49,8 @@ def procesar_unv_Comahue():
     df_unv_comahue = pd.read_sql(univ_nacional_del_comahue_sql, config('DB_DATA_CONNECT'))
 
     # se renombran las columnas necesarias
-    df_unv_comahue.rename(columns={          
-        'universidad' : 'university',          
+    df_unv_comahue.rename(columns={
+        'universidad' : 'university',  
         'carrera' : 'career',              
         'fecha_de_inscripcion' : 'inscription_date', 
         'sexo' : 'gender',                 
