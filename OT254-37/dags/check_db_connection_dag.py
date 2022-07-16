@@ -33,7 +33,6 @@ default_args = {
     'retry_delay': timedelta(seconds=30)
 }
 
-
 #se definen las propiedades del dag.
 with DAG(
     'check_db_connection',
