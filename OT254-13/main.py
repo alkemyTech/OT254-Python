@@ -1,7 +1,6 @@
 import pandas as pd
 from decouple import config
 
-
 #se lee el archivo sql correspondiente a la univ. nacional del comahue
 file = open('Univ_Nacional_Del_Comahue.sql','r' )
 Univ_Nacional_Del_Comahue_sql = file.read()
