@@ -18,7 +18,7 @@ with DAG(
         )
 
     data_process_univ_comahue = PythonOperator(
-        task_id = 'procesar datos univ. nac del comahue',
+        task_id = 'procesar datos univ. nacional del comahue',
         python_callable = univ_del_comahue_data_process
         )
 
