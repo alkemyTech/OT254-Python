@@ -5,8 +5,6 @@ import time
 from sqlalchemy import  exc, create_engine, inspect
 from decouple import config
 
-
-
 def check_db_connection():
     retry_flag = True
     retry_count = 0 
