@@ -2,8 +2,7 @@ import pandas as pd
 from decouple import config
 
 
-def procesar_unv_del_salvador():
-    
+def procesar_unv_del_salvador():    
     #se lee el archvio sql correspondiente a la universidad del salvador  
     file = open('Universidad_Del_Salvador.sql', 'r')
     universidad_del_salvador_sql = file.read()
