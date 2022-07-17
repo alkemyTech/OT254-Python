@@ -13,7 +13,7 @@ with DAG(
     start_date=datetime(2022, 7, 15),
     ) as dag:
     
-    task_check_db_connection = PythonOperator(
+    task_data_process = PythonOperator(
         task_id = 'procesar_datos',
         python_callable = procesar_datos
         )
