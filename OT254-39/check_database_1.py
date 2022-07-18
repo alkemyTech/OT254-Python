@@ -10,7 +10,7 @@ from retry import retry
 @retry(delay=10, tries=3)
 def test():
     try:
-        engine = create_engine('postgresql://alkymer:Alkemy22@training-main.cghe7e6sfljt.us-east-1.rds.amazonaws.com/training', echo=True)
+        engine = create_engine(config('DB_URL'), echo=True)
         con = engine
         inspector = inspect(con)
         if inspector.get_table_names().__contains__('palermo_tres_de_febrero') and inspector.get_table_names().__contains__('jujuy_utn'):
