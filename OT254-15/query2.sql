@@ -6,7 +6,7 @@ create table localidad(
     localidad varchar(100)
 );
 
---segunda query funcional 99%
+--segunda query 100% funcional
 select
     svm.universidad,
     svm.carrera,
@@ -14,10 +14,7 @@ select
     split_part(svm.nombre, '_', 1) as first_name,
     split_part(svm.nombre, '_', 2) as last_name,
     svm.sexo,
-    -- no funciona correctamente date(svm.fecha_nacimiento)
-    -- caso funcional (22-May-87) -> 1987-05-22
-    -- caso no funcional (25-Aug-61) -> 2061-08-25, correctamente (1961-08-25)
-    extract(year from age(date(svm.fecha_nacimiento))) as age, -- no me funcionó en todos los casos
+    EXTRACT(year FROM AGE(year_19xx(DATE(fecha_nacimiento)))) AS age,
     l.codigo_postal,
     svm.direccion,
     svm.email
