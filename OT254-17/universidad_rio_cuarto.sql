@@ -12,6 +12,6 @@ FROM rio_cuarto_interamericana
 WHERE 
 univiersities LIKE 'Universidad-nacional-de-río-cuarto'
 AND 
-(TO_DATE(inscription_dates,'DD-mon-YY') >= '2020-09-01') 
+(TO_DATE(inscription_dates,'YY-mon-DD') >= '2020-09-01') 
 AND 
-(TO_DATE(inscription_dates,'DD-mon-YY') <= '2021-02-01');
+(TO_DATE(inscription_dates,'YY-mon-DD') <= '2021-02-01');
