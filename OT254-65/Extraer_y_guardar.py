@@ -33,10 +33,10 @@ def extraer_y_guardar():
     rio_cuarto_df = pd.read_sql(rio_cuarto_sql, config('DB_DATA_CONNECT'))
 
     #merge
-    moron_df.merge(df_codigos_postales, on="postal_code",how='left')
+    moron_df = moron_df.merge(df_codigos_postales, on="postal_code",how='left')
 
     rio_cuarto_df['edad'] = rio_cuarto_df['edad'] % 100
-    rio_cuarto_df.merge(df_codigos_postales, on='localidad',how='left')
+    rio_cuarto_df = rio_cuarto_df.merge(df_codigos_postales, on='localidad',how='left')
 
     #guardo csv's en la carpeta file usando la ruta escrita en el .env
     rio_cuarto_df.to_csv(config('FILES')+"universidad_rio_cuarto.csv", index=None)
