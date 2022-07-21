@@ -5,7 +5,7 @@ import time
 from sqlalchemy import  exc, create_engine, inspect
 from decouple import config
 
-def check_db_connectioncheck_db_connection():
+def check_db_connection():
     retry_flag = True
     retry_count = 0 
     while retry_flag and retry_count < 10:
@@ -14,13 +14,13 @@ def check_db_connectioncheck_db_connection():
             engine.connect()
             insp = inspect(engine)
             #se comprueba si existen las tablas, de no ser asi se reeintenta la conexion
-            if insp.has_table("moron_nacional_pampa") and insp.has_table("rio_cuarto_interamericana"):
+            if insp.has_table("flores_comahue") and insp.has_table("salvador_villa_maria"):
                 retry_flag = False
             else: 
                 retry_count = retry_count + 1 
                 time.sleep(60)
         except exc.SQLAlchemyError:
-            #se incrementa la variable de control en caso de que se produzca un error
+            #se incrementa la variavle de control en caso de que se produzca un error
             retry_count = retry_count + 1
             #s espera 1 minuto antes de el siguiente reintento
             time.sleep(60)
@@ -41,5 +41,9 @@ with DAG(
     
     task_check_db_connection = PythonOperator(
         task_id = 'check_db_connection',
-        python_callable = 'check_db_connection'
+        python_callable = check_db_connection
         )
+
+
+
+
