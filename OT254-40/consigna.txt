@@ -1,0 +1,10 @@
+COMO: Analista de datos
+QUIERO: Configurar los retries con la conexión al a base de datos
+PARA: poder intentar nuevamente si la base de datos me produce un error
+
+Criterios de aceptación: 
+Configurar el retry para las tareas del DAG de las siguientes universidades:
+
+Universidad Nacional De La Pampa
+
+Universidad Abierta Interamericana

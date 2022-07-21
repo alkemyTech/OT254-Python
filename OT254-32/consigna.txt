@@ -1,0 +1,10 @@
+COMO: Analista de datos
+QUIERO: Configurar un DAG, sin consultas, ni procesamiento
+PARA: Hacer un ETL para 2 universidades distintas.
+
+Criterios de aceptación: 
+Configurar el DAG para procese las siguientes universidades:
+
+·Universidad Nacional De La Pampa
+
+·Universidad Abierta Interamericana
