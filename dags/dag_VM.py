@@ -2,19 +2,31 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 from airflow import DAG
 from src.uvm_functions import df_csv, df_txt
+import logging
+import logging.config
+
+logging.config.fileConfig('/home/jmsiro/airflow/log.cfg',)
+logger = logging.getLogger(__name__)
+
+logger.debug('Initiating DAG_uni_villa_maria')
+
+def task_success(context):
+    logger.info(f"DAG realizado con exito, id: {context['run_id']}")
+def task_retry(context):
+    logger.warning(f"El DAG ha fallado, {context['task_instance'].try_number}")
+def task_failure(context):
+    logger.exception(f"El DAG ha fallado, {context['task_instance_key_str']}")
 
 default_args = {
     "owner": "alkemy",
     "depends_on_past": True,
     "wait_for_downstream": True,
     "start_date": datetime(2022, 7, 1),
-    "email": ["jmsiro@gmail.com"],
-    "email_on_failure": False,
-    "email_on_retry": False,
     "retries": 5,
     'retry_delay': timedelta(minutes=2),
-    # 'on_retry_callback': , # Add logging call
-    # 'on_success_callback': 
+    'on_success_callback': task_success,
+    'on_retry_callback': task_retry,
+    'on_failure_callback': task_failure
 }
 
 with DAG(

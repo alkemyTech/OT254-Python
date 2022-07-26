@@ -2,12 +2,25 @@ from sqlalchemy import text
 import pandas as pd
 import src.engine
 import os
+import logging
+import logging.config
+
+logging.config.fileConfig('/home/jmsiro/airflow/log.cfg',)
+logger = logging.getLogger(__name__)
 
 global column_list 
 column_list= ['university','career','inscription_date','first_name','last_name','gender','age','postal_code','location','email']
 
 def dataf_uvm (path_query_UVM, path_PC):
-    
+    """Connects to the database, execute the query for Universidad de Villa Maria (.slq).
+
+    Args:
+        path_query_UVM (str): path to .sql file
+        path_PC (str): path to .csv file
+
+    Returns:
+        dataframe: Result of the query made to the database
+    """
     conn = src.engine.eng_con()
 
     with open(path_query_UVM, 'r') as sql_statement:
@@ -35,7 +48,16 @@ def dataf_uvm (path_query_UVM, path_PC):
     return df
 
 def df_csv(path_query_UVM, path_PC, path_csv, filename, ti):
-    
+    """
+    Args:
+        path_query_UVM (str): path to .sql file
+        path_PC (str): path to .csv file
+        path_csv (str): path to save the file with the query result
+        filename (str): name for the file
+
+    Returns:
+        file: CSV file containing the result of the query made to the database
+    """
     df = dataf_uvm (path_query_UVM, path_PC)
     
     path_ = os.path.join(path_csv, filename + '.csv')
@@ -48,7 +70,15 @@ def df_csv(path_query_UVM, path_PC, path_csv, filename, ti):
     ti.xcom_push(key='csv_file_uvm', value=path_)
 
 def df_txt(path_txt, filename, ti):
+    """Takes the .csv and normalize it into a .txt file
+
+    Args:
+        path_txt (str): path to save the file with the normalized data
+        filename (str): mame for the file
     
+    Returns:
+        dataframe: Result of the query made to the database
+    """
     df = pd.read_csv(ti.xcom_pull(key='csv_file_uvm', task_ids='export_csv_uvm'))
     
     path_ = os.path.join(path_txt, filename + '.txt')
