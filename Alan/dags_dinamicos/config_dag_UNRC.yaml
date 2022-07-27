@@ -1,0 +1,41 @@
+dag_dinamico_rio_cuarto:
+  default_args:
+    owner: 'airflow'
+    start_date: 2022-07-01  # or '2 days'
+    end_date: 2022-07-05
+    retries: 1
+    retry_delay_sec: 3
+  schedule_interval: '0 3 * * *'
+  concurrency: 1
+  max_active_runs: 1
+  dagrun_timeout_sec: 60
+  default_view: 'tree'  # or 'graph', 'duration', 'gantt', 'landing_times'
+  orientation: 'LR'  # or 'TB', 'RL', 'BT'
+  description: 'Dag dinamico que extrae procesa y carga datos de la UNRC'
+  tasks:
+    extraer_UNRC:
+      operator: airflow.operators.python.PythonOperator
+      python_callable_name: extraer
+      python_callable_file: /home/alan/airflow/dags/extraer.py
+      op_kwargs:
+        universidad : "universidad_de_rio_cuarto"
+        path_sql: "/home/alan/airflow/dags/"
+        path_files: "/home/alan/airflow/dags/files/"
+    procesar_UNRC:
+      operator: airflow.operators.python.PythonOperator
+      python_callable_name: procesar
+      python_callable_file: /home/alan/airflow/dags/procesar.py
+      op_kwargs:
+        universidad : "universidad_de_rio_cuarto"
+        path_files: "/home/alan/airflow/dags/files/"
+        link: 'https://drive.google.com/u/0/uc?id=1or8pr7-XRVf5dIbRblSKlRmcP0wiP9QJ&export=download'
+      dependencies: [extraer_UNRC]
+    cargar_UNRC:
+          operator: airflow.operators.python.PythonOperator
+          python_callable_name: cargar
+          python_callable_file: /home/alan/airflow/dags/cargar.py
+          op_kwargs:
+            key : "universidad_de_rio_cuarto.txt"
+            file : "/home/alan/airflow/dags/files/universidad_de_rio_cuarto.txt"
+            bucket_name: "cohorte-julio-8972766c"
+          dependencies: [procesar_UNRC]
