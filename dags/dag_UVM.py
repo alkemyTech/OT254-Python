@@ -2,14 +2,14 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 from airflow import DAG
 from decouple import config
-from src.uf_functions import df_csv, df_txt, upload_to_s3
+from src.uvm_functions import df_csv, df_txt, upload_to_s3
 import logging
 import logging.config
 
 logging.config.fileConfig('/home/jmsiro/airflow/log.cfg')
 logger = logging.getLogger(__name__)
 
-logger.debug('Initiating DAG_uni_flores')
+logger.debug('Initiating DAG_uni_villa_maria')
 
 def task_success(context):
     logger.info(f"DAG realizado con exito, id: {context['run_id']}")
@@ -31,7 +31,7 @@ default_args = {
 }
 
 with DAG(
-    'DAG_uni_flores',
+    'DAG_uni_villa_maria',
     default_args = default_args,
     description = '',
     schedule_interval = '@daily',
@@ -39,27 +39,27 @@ with DAG(
 
     export_csv = PythonOperator(
         dag = dag,
-        task_id = "export_csv_uf",
+        task_id = "export_csv_uvm",
         python_callable = df_csv,
         op_kwargs = {
-            'path_query_UF': '/home/jmsiro/airflow/dags/src/query_UF.sql',
+            'path_query_UVM': '/home/jmsiro/airflow/dags/src/query_UVM.sql',
             'path_PC': '/home/jmsiro/airflow/dags/data_base/codigos_postales.csv',
             'path_csv': '/home/jmsiro/airflow/dags/data_base', 
-            'filename': 'UF'}
+            'filename': 'UVM'}
     )
     
     export_txt = PythonOperator(
         dag = dag,
-        task_id = "export_txt_uf",
+        task_id = "export_txt_uvm",
         python_callable = df_txt,
         op_kwargs = {
             'path_txt': '/home/jmsiro/airflow/dags/data_processed', 
-            'filename': 'UF'}
+            'filename': 'UVM'}
     )  #To do, options: a) use varibles from airflow: {{ var.value.name_of_var}} b) use json variable from airflow Variable.get("json_variabale", deserialize_jason=True)
-
+        
     upload_s3 = PythonOperator(
         dag = dag,
-        task_id = "upload_to_s3_uf",
+        task_id = "upload_to_s3_uvm",
         python_callable = upload_to_s3,
         op_kwargs = {
             'bucket_name': config('BUCKET_NAME'),

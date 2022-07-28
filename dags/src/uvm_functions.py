@@ -4,8 +4,9 @@ import src.engine
 import os
 import logging
 import logging.config
+import boto3
 
-logging.config.fileConfig('/home/jmsiro/airflow/log.cfg',)
+logging.config.fileConfig('/home/jmsiro/airflow/log.cfg')
 logger = logging.getLogger(__name__)
 
 global column_list 
@@ -44,7 +45,7 @@ def dataf_uvm (path_query_UVM, path_PC):
 
     # Set order of the data frame columns
     df = df[column_list]
-
+    logger.info("Query made succesfuly!")
     return df
 
 def df_csv(path_query_UVM, path_PC, path_csv, filename, ti):
@@ -66,6 +67,8 @@ def df_csv(path_query_UVM, path_PC, path_csv, filename, ti):
         os.mkdir(path_csv)
         
     df.to_csv(path_, index=False)
+    
+    logger.info("File {} created!".format(os.path.basename(path_)))
     
     ti.xcom_push(key='csv_file_uvm', value=path_)
 
@@ -104,5 +107,32 @@ def df_txt(path_txt, filename, ti):
     
     df= df.applymap(lambda c: c.lower() if type(c) == str else c)
     df.to_csv(path_, sep=',', index=False)
+    
+    logger.info("File {} created!".format(os.path.basename(path_)))
+    
+    ti.xcom_push(key='txt_file_uvm', value=path_)
         
+def upload_to_s3(ti, bucket_name, aws_access_key_id, aws_secret_access_key, region_name):
+    """ Upload a file to a AWS S3 bucket
+    
+    Args:
+        file_path (str): Path to the file
+        bucket_name (str): Name of the AWS S3 bucket
+        aws_access_key_id (str): AWS Public Key
+        aws_secret_access_key (str): AES Secret Key
+        region_name (str): AWS Region
+    """
+    # Creates connection
+    s3_client = boto3.client(service_name='s3',region_name=region_name, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+    # Gets file name
+    file_path = ti.xcom_pull(key='txt_file_uvm', task_ids='export_txt_uvm')
+    
+    file_name = os.path.basename(str(file_path))
 
+    try:
+        # Uploads file if it doesn't exist or replace the old one
+        s3_client.upload_file(file_path, bucket_name, file_name)
+        logger.info("File {}, uploaded succesfully to bucket {}".format(file_name, bucket_name))
+        
+    except Exception as e:
+        logger.error(e)
