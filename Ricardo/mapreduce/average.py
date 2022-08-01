@@ -1,7 +1,6 @@
 """
 Este modulo es un mapreducer para extraer el puntaje promedio de las repuestas con mas favoritos
 de el dataset de stackoverflow
-
 """
 
 import xml.etree.ElementTree as ET

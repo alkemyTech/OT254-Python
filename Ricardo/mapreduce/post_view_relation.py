@@ -1,7 +1,6 @@
 """
 Este modulo es un mapreducer para extraer la relación entre cantidad de palabras en un post y su cantidad de visitas
 de el dataset de stackoverflow
-
 """
 
 import xml.etree.ElementTree as ET
