@@ -2,16 +2,6 @@
 Este modulo es un mapreducer para extraer la relación entre cantidad de palabras en un post y su cantidad de visitas
 de el dataset de stackoverflow
 
-OT254-157:
-guia para ejecutar mapreduce en hadoop : 
-
-/usr/local/hadoop/bin/hadoop jar
-/usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar
- -input posts.xml 
- -output salida_hadoop
- -mapper mapper.py -reducer reducer.py 
- -file mapper.py -file reducer.py
-
 """
 
 import xml.etree.ElementTree as ET
