@@ -1,7 +1,6 @@
 """
 Este modulo es un mapreducer para extraer el top 10 de los tags sin respuesta aceptada 
 de el dataset de stackoverflow
-
 """
 
 from ast import If
