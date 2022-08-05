@@ -21,7 +21,7 @@ def reducer_relation():
     #loop through the data
     for line in sys.stdin:
         #split the line into a list
-        line = line.split('\t')
+        line = line.strip().split('\t')
         #append the list to the list
         ar.append(line)
 
