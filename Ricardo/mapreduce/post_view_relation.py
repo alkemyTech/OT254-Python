@@ -22,6 +22,7 @@ def mapper(data):
     #se abre el archivo que contiene los datos
     lista = []
     #se itera sobre los elementos row de el dataset
+    
     for node in data.iter('row'):
         #se extrae la cantidad de palabras por cada post
         word_by_post = len(node.attrib.get('Body'))
