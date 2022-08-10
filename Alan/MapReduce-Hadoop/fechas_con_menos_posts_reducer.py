@@ -25,14 +25,14 @@ def reducer(count1, count2):
 
     return count1
 
+if __name__ == "__main__":
+    # Reducer recibe lista de lista de counters con (fecha:str , cantidad_de_repeticiones:int)
+    reduced = reduce(reducer, sys.stdin())
 
-# Reducer recibe lista de lista de counters con (fecha:str , cantidad_de_repeticiones:int)
-reduced = reduce(reducer, sys.stdin())
+    # Se toman los items del Counter ordenandolos de manera acendente 
+    # y tomando los primeros 10
+    dates_posted = sorted(reduced.items(), key=lambda items: items[1], reverse=False)[0:10]
 
-# Se toman los items del Counter ordenandolos de manera acendente 
-# y tomando los primeros 10
-dates_posted = sorted(reduced.items(), key=lambda items: items[1], reverse=False)[0:10]
-
-# Devuelve las 10 fechas con la menor cantidad de posts
-# [(fecha:str,cantidad_de_post:int)]
-print(dates_posted)
+    # Devuelve las 10 fechas con la menor cantidad de posts
+    # [(fecha:str,cantidad_de_post:int)]
+    print(dates_posted)

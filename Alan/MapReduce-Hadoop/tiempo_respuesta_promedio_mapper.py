@@ -30,30 +30,30 @@ def get_df(row):
     """
     dic = {}
 
-    parent_or_answer = row.get("PostTypeId")
+    parent_or_answer = int(row.get("PostTypeId"))
     date = row.get("CreationDate")
     date = date.split('T')[0]
 
     # Si el Score no esta entre 100~200 devuelve un Dataframe con valores nulos
     if parent_or_answer == 1:
-        score = row.get("Score")
+        score = int(row.get("Score"))
         if score >200 or score <100:
             dic.update(
                 id = [np.NaN],
                 score = [np.NaN],
-                creation_date_q  = [np.NaN]            ##### to datetime dale
+                creation_date_q  = [np.NaN]            
                 )
         else:
             dic.update(
-                    id = [row.get("Id")],
-                    score = [row.get("Score")],
-                    creation_date_q  = [date]        ##### to datetime dale
+                    id = [int(row.get("Id"))],
+                    score = [int(row.get("Score"))],
+                    creation_date_q  = [date]        
                     )
 
     elif parent_or_answer == 2:
         dic.update(
-                creation_date_a  = [date],         ##### to datetime dale
-                id = [row.get("ParentID")]#chekiar si es id or none
+                creation_date_a  = [date],         
+                id = [int(row.get("ParentID"))]
                 )
 
     return pd.DataFrame(dic)
@@ -77,15 +77,16 @@ def mapper(chunk):
     
     return lista_de_dfs
 
-# Parsea el .xml file que recive en fileinput.input()
-tree = ET.parse(fileinput.input())
-data = tree.getroot()
+if __name__ == "__main__":
+    # Parsea el .xml file que recive en fileinput.input()
+    tree = ET.parse(fileinput.input())
+    data = tree.getroot()
 
-# Chunkify data
-chunk_len = 50
-chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
+    # Chunkify data
+    chunk_len = 50
+    chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
 
-# Mapper que devuelve lista de listas de dfs
-mapped = list(map(mapper, chunks))
+    # Mapper que devuelve lista de listas de dfs
+    mapped = list(map(mapper, chunks))
 
-print(mapped)
+    print(mapped)

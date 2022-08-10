@@ -41,18 +41,18 @@ def mapper(chunk):
     
     return Counter(dates)
 
+if __name__ == "__main__":
+    # Se parsea el .xml file recibido usando "fileinput"
+    tree = ET.parse(fileinput.input())
+    data = tree.getroot()
 
-# Se parsea el .xml file recibido usando "fileinput"
-tree = ET.parse(fileinput.input())
-data = tree.getroot()
+    # Chunkify data
+    chunk_len = 50
+    chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
 
-# Chunkify data
-chunk_len = 50
-chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
+    # Maper principal
+    mapped = list(map(mapper, chunks))
 
-# Maper principal
-mapped = list(map(mapper, chunks))
-
-# Devuelve una lista de lista de collections.Counters 
-# que contiene (fecha:str , cantidad_de_repeticiones: int)
-print(mapped)
+    # Devuelve una lista de lista de collections.Counters 
+    # que contiene (fecha:str , cantidad_de_repeticiones: int)
+    print(mapped)
