@@ -3,7 +3,7 @@ Este modulo es un mapreducer para extraer el top 10 de los tags sin respuesta ac
 de el dataset de stackoverflow
 """
 
-from ast import If
+
 import xml.etree.ElementTree as ET
 import operator
 
@@ -66,7 +66,7 @@ def reducer(data):
 
 if __name__ == "__main__":
     try:
-        data = chunkify('post.xml')
+        data = chunkify('post.xml',10)
     except FileNotFoundError as e:
         print('error al abrir el archivo')
     else:
