@@ -1,7 +1,7 @@
 """
 Processes and analyses StackOverflow data to obtain the top 10 of the least viewed posts.
 """
-from parser import get_data, chunkify
+from xmlparser import get_data, chunkify
 import logging.config
 from functools import reduce
 from collections import Counter
