@@ -62,7 +62,7 @@ def mapper(chunk):
         else:
              # If the post has one tag it append it to the list directly
             tags_.append(tag)
-    
+            
     return Counter(tags_)
 
 def reducer(count1, count2):
@@ -84,14 +84,13 @@ def reducer(count1, count2):
     """
 
     count1.update(count2)
-
     return count1
 
 if __name__ == '__main__':
     try:
         # Parses the .xml file
         logger.info('Starting to parse .xml file...')
-        data = get_data('Posts.xml')
+        data = get_data('/home/jmsiro/Desktop/Alkemy/Sprint_3/tests_data/Posts_test.xml')
     except FileNotFoundError as e:
         pass
         logger.error('Something went wrong..')
@@ -108,7 +107,7 @@ if __name__ == '__main__':
         # Main reduction function
         logger.info('Starting to reduce data...')
         reduced = reduce(reducer, mapped)
-
+        print(reduced)
         # Top 10 tags used in posts with accepted answers
         top10= reduced.most_common(10)
         logger.info(f"Top 10 tags used in posts with accepted answers: {top10}")

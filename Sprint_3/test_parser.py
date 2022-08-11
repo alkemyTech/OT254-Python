@@ -1,8 +1,6 @@
-from typing import List
 import unittest
 from xmlparser import get_data, chunkify
 from pathlib import Path
-from unittest.mock import patch, mock_open
 import xml.etree.ElementTree as ET
 
 TEST_DATA_DIR = str(Path(__file__).resolve().parent / 'tests_data' / 'Comments_test.xml')
@@ -30,7 +28,7 @@ class test_xmlparser(unittest.TestCase):
         
     def test_chunks_type(self):
         "Checks that the correct instance is created"
-        self.assertIsInstance(chunkify(self.data, LENGTH), List)
+        self.assertIsInstance(chunkify(self.data, LENGTH), list)
     
     def test_chunks_length(self):
         "Checks that the data spliting gets done rigth"

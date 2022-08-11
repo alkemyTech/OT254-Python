@@ -47,7 +47,7 @@ def get_col_c(row):
     list_ = []
     list_.append(row.get("PostId"))
     list_.append(row.get("CreationDate"))
-    
+ 
     return list_
     
 def mapper_p(chunk):
@@ -67,7 +67,7 @@ def mapper_p(chunk):
     """
 
     posts = list(map(get_col_p, chunk))
-    
+
     return posts
 
 def mapper_c(chunk):
@@ -87,7 +87,7 @@ def mapper_c(chunk):
     """
 
     comments = list(map(get_col_c, chunk))
-    
+
     return comments
 
 def reducer(mapped_p, mapped_c):
@@ -133,15 +133,15 @@ def reducer(mapped_p, mapped_c):
     
     # Calculate delay between post date and first comment date
     result["Delay"] = result.CommentCreation - result.PostCreation
-    
-    return result["Delay"].mean()
+
+    return result, result["Delay"].mean()
 
 if __name__ == '__main__':
     try:
         # Parses the .xml file
         logger.info('Starting to parse .xml files...')
-        data_p = get_data('Posts.xml')
-        data_c = get_data('Comments.xml')
+        data_p = get_data('/home/jmsiro/Desktop/Alkemy/Sprint_3/tests_data/Posts_test.xml')
+        data_c = get_data('/home/jmsiro/Desktop/Alkemy/Sprint_3/tests_data/Comments_test.xml')
     except FileNotFoundError as e:
         pass
         logger.error('Something went wrong..')
@@ -159,8 +159,8 @@ if __name__ == '__main__':
 
         # Main reduction function
         logger.info('Starting to reduce data...')
-        reduced = reducer(mapped_p, mapped_c)
-
+        df, reduced = reducer(mapped_p, mapped_c)
+        print(df.all().notnull().to_dict())
         # Average delay between the post creation date and the firt comment creation date. 
         logger.info(f"The average delay between the post creation date and the firt comment creation date is: {reduced}")
     
