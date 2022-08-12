@@ -29,11 +29,13 @@ TAG_LIST = [None,
             'c#', 'html', 'datetime', '.net', 'linq', '.net-3.5', 'mysql', 'database', 'php', 'css', 'internet-explorer-7', 'conversion', 'j#', 'timespan', 'browser', 'time', 'timezone', 'web-services', 'triggers', 'c++', 'c', 'sockets', 'mainframe', 'zos', 'sql-server', 'datatable', 'vb.net', 'timer', 'architecture', 'plugins', 'form-submit', 'office-2007', 'filetypes']
 
 class test_top10(unittest.TestCase):
-
+    """
+    This tests the funtions to obtain the Top 10 Tags used in Posts with Accepted Answers. Using a test input file 
+    it checks each function individually.
+    """
     def setUp(self):
         self.data = chunkify(get_data(TEST_DATA_DIR), LENGTH)
         self.data2 = list(map(mapper, self.data))
-        # self.data3 = mapper(self.data2)
 
     def test_get_tags_raw(self):
         "Checks that all tags of the test file are being parsed"
@@ -49,14 +51,14 @@ class test_top10(unittest.TestCase):
                 self.assertIsInstance(mapper(chunk), Counter)
     
     def test_mapper_tags(self):
-        "Checks that cleaned tag list is complete"
+        "Checks that the cleaned tag list is complete"
         for chunk in self.data:
             for tag in list(mapper(chunk).keys()):
                 with self.subTest(tag):
                     self.assertIn(tag, TAG_LIST)
             
     def test_mapper_tags_sample(self):
-        "Checks that tags are being ocunted correctly (with a sample)"
+        "Checks that tags are being counted correctly (with a sample)"
         reduced = reduce(reducer, self.data2)
         self.assertEqual(reduced['c#'], 7)
         self.assertEqual(reduced['.net'], 2)

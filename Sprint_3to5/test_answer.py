@@ -116,7 +116,10 @@ RAW_LIST_C = [['4', '2008-09-06T08:07:10.730'],
 DELAY = 36
 
 class test_answer(unittest.TestCase):
-
+    """
+    This tests the funtions to obtain the Average Time between the Post Date and the Date of its first Comment. Using two test input files 
+    it checks each function individually.
+    """
     def setUp(self):
         self.data_p = chunkify(get_data(TEST_DATA_DIR_P), LENGTH)
         self.data_c = chunkify(get_data(TEST_DATA_DIR_C), LENGTH)
@@ -125,14 +128,14 @@ class test_answer(unittest.TestCase):
         self.data2_c = list(map(mapper_c, self.data_c))
 
     def test_get_col_p_raw(self):
-        "Checks that all posts and comments related of the tests files are being parsed"
+        "Checks that all posts in the test file are being parsed"
         for chunk in self.data_p:
             for row in chunk:
                 with self.subTest(row):
                     self.assertIn(get_col_p(row), RAW_LIST_P)
     
     def test_get_col_c_raw(self):
-        "Checks that all tags of the test file are being parsed"
+        "Checks that all comments in the test file are being parsed"
         for chunk in self.data_c:
             for row in chunk:
                 with self.subTest(row):
@@ -156,7 +159,7 @@ class test_answer(unittest.TestCase):
         self.assertIsInstance(reduced, Timedelta)
     
     def test_reducer_df_integrity(self):
-        "Checks that there are not none values in the dataframe"
+        "Checks that there are not None values in the dataframe (It should not have Posts with no Comments)"
         df, reduced = reducer(self.data2_p, self.data2_c)
         dic = list(df.all().notnull().to_dict().values())
         for v in dic:
@@ -164,7 +167,7 @@ class test_answer(unittest.TestCase):
                 self.assertTrue(v)
     
     def test_reducer_result(self):
-        "Checks that the final result is the one of the sample (in days)"
+        "Checks that the final result is the one of the testing files (in days)"
         df, reduced = reducer(self.data2_p, self.data2_c)
         self.assertEqual(reduced.days, DELAY)
 

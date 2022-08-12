@@ -28,7 +28,7 @@ def words_score(row):
     data.append(words)
     score = int(row.get("Score"))
     data.append(score)
-    
+
     return data
     
 def mapper(chunk):
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     try:
         # Parses the .xml file
         logger.info('Starting to parse .xml file...')
-        data = get_data('Posts.xml')
+        data = get_data('/home/jmsiro/Desktop/Alkemy/Sprint_3/tests_data/Posts_test.xml')
     except FileNotFoundError as e:
         pass
         logger.error('Something went wrong..')
