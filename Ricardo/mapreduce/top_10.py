@@ -4,13 +4,19 @@ de el dataset de stackoverflow
 """
 
 
-from ast import If
 import xml.etree.ElementTree as ET
 import operator
 
 
 
-def mapper():
+def chunkify(file, chunk_len): 
+    tree = ET.parse(file)
+    data = tree.getroot()
+    chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
+    return chunks
+
+
+def mapper(data):
     """
     funcion para extraer los tags sin respuesta aceptadas del dataset
 
@@ -18,10 +24,9 @@ def mapper():
     aceptadas
     """
     #se lee el archivo xml que contiene los datos
-    tree = ET.parse('outp.xml')
     tag_list = []
     #se itera sobre los elementos row en el archivo xml
-    for node in tree.iter('row'):
+    for node in data.iter('row'):
         #se obtiene el valor tag por cada row
         tags = node.attrib.get('Tags')
         #se obtiene el valor de AcceptedAnswerId por cada row
@@ -60,5 +65,10 @@ def reducer(data):
 
 
 if __name__ == "__main__":
-    tags = mapper() 
-    print (reducer(tags))
+    try:
+        data = chunkify('post.xml',10)
+    except FileNotFoundError as e:
+        print('error al abrir el archivo')
+    else:
+        datamaped = mapper(data)
+        print(reducer(datamaped))

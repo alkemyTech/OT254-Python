@@ -1,0 +1,17 @@
+dag_id: "uni_villa_maria"
+
+task1_id: "uvm"
+kwargs1: {'path_query_UF':'/home/jmsiro/airflow/dags/src/query_VM.sql', 
+'path_PC':'/home/jmsiro/airflow/dags/data_base/codigos_postales.csv',
+'path_csv':'/home/jmsiro/airflow/dags/data_base', 
+'filename':'UVM'}
+
+task2_id: 'uvm'
+kwargs2: {'path_txt':'/home/jmsiro/airflow/dags/data_processed', 
+'filename':'UVM'}
+
+task3_id: 'uvm'
+kwargs3: {'bucket_name': config('BUCKET_NAME'),
+'aws_access_key_id': config('PUBLIC_KEY'), 
+'aws_secret_access_key': config('SECRET_KEY'),
+'region_name': config('REGION')}

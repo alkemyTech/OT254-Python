@@ -7,17 +7,23 @@ import xml.etree.ElementTree as ET
 import pandas as pd 
 
 
-def mapper():
+def chunkify(file, chunk_len): 
+    tree = ET.parse(file)
+    data = tree.getroot()
+    chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
+    return chunks
+
+def mapper(data):
     """
     funcion para extrar de el dataset una lista que contenga las palabras por post y su cantidad de visitas
 
     return: lista que contiene las palabras por post y la cantidad de visitas 
     """
     #se abre el archivo que contiene los datos
-    tree = ET.parse('outp.xml')
     lista = []
     #se itera sobre los elementos row de el dataset
-    for node in tree.iter('row'):
+    
+    for node in data.iter('row'):
         #se extrae la cantidad de palabras por cada post
         word_by_post = len(node.attrib.get('Body'))
         #se extrae la cantidad de visitas por post
@@ -45,7 +51,10 @@ def reducer(data):
     return relacion['word_by_post'][1]
 
 if __name__ == "__main__":
-    data = mapper()
-    print(reducer(data))
-
-
+    try:
+        data = chunkify('post.xml')
+    except FileNotFoundError as e:
+        print('error al abrir el archivo')
+    else:
+        datamaped = mapper(data)
+        print(reducer(datamaped))

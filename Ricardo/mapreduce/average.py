@@ -7,17 +7,22 @@ import xml.etree.ElementTree as ET
 import pandas as pd 
 
 
-def mapper():
+def chunkify(file, chunk_len): 
+    tree = ET.parse(file)
+    data = tree.getroot()
+    chunks = [data[i:i + chunk_len] for i in range(0, len(data), chunk_len)]
+    return chunks
+
+def mapper(data):
     """
     funcion para extrar de el dataset una lista que contenga el puntaje promedio de las repuestas con mas favoritos
-
     return: lista que contiene el puntaje de las repuestas con mas favoritos
     """
     #se abre el archivo que contiene los datos
-    tree = ET.parse('outp.xml')
+    
     lista = []
     #se itera sobre cada elemento row de el dataset
-    for node in tree.iter('row'):
+    for node in data.iter('row'):
         #se extrae el numero de favoritos
         favoritecount = node.attrib.get('FavoriteCount')
         #se extrae el puntaje 
@@ -29,16 +34,11 @@ def mapper():
     return lista
 
 
-
-
 def reducer(data):
     """
     funcion para calcular el puntaje promedio
-
     data : recibe una lista con los puntajes
-
     return : retorna el puntaje pormedio 
-
     """
     #se crea un dataframe con los puntajes
     df = pd.DataFrame(data)
@@ -49,7 +49,11 @@ def reducer(data):
     return promedio
 
 
-
 if __name__ == "__main__":
-    data = mapper() 
-    print (reducer(data))
+    try:
+        data = chunkify('post.xml')
+    except FileNotFoundError as e:
+        print('error al abrir el archivo')
+    else:
+        datamaped = mapper(data)
+        print(reducer(datamaped))
