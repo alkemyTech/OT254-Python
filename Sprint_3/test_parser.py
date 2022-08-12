@@ -9,7 +9,10 @@ LENGTH = 10
 
 
 class test_xmlparser(unittest.TestCase):
-    
+    """
+    This tests the preparation of data before "MapReduce" it. Firstly tests the reading and parsing of the input file 
+    and secondly the división in to smaller pieces of data.
+    """
     def setUp(self):
         self.data = get_data(TEST_DATA_DIR)
         
