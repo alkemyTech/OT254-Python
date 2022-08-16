@@ -1,7 +1,7 @@
 
 """
-    Se crea un ET.Element junto con otros elementos para provar
-    entradas y salidas en tests.py
+    An ET.Element is created along with other elements to test
+    inputs and outputs in tests.py
 """
 
 import pandas as pd
@@ -11,6 +11,14 @@ import xml.etree.ElementTree as ET
 
 
 def root():
+    """
+    Create five sub elements in an xml.etree.ElementTree.Element
+    and finally returning it
+
+    Return:
+    ------
+        xml.etree.ElementTree.Element
+    """
     root = ET.Element("posts")
     ET.SubElement(
                     root, "row",
@@ -57,6 +65,13 @@ def root():
 
 
 def counter_creationdate():
+    """
+    returns a Counter of five dates
+
+    Return:
+    ------
+        Counter[str]
+    """
     return Counter(
         [
             root()[0].get("CreationDate").split('T')[0],
@@ -68,6 +83,14 @@ def counter_creationdate():
     )
 
 def counter_words_body_row_1():
+    """
+    returns a Counter of three words
+
+    Returns:
+    -------
+
+       Counter[str]
+    """
     return Counter(
         [
             "lorem",
@@ -77,6 +100,15 @@ def counter_words_body_row_1():
     )
 
 def list_counters_impure_words_bodys():
+    """
+    eturns a list of word counters with
+    special characters and numbers
+
+    Return:
+    ------
+
+        List [ Counter [str] ]
+    """
     return [
             Counter(root()[0].get("Body").split()),
             Counter(root()[1].get("Body").split()),
@@ -85,6 +117,17 @@ def list_counters_impure_words_bodys():
             Counter(root()[4].get("Body").split()),
         ]
 def list_counters_words_bodys():
+    """
+    returns a list of word counters without
+    special characters or numbers
+
+    Return:
+    -------
+
+        List[Counter[str]]
+
+        
+    """
     return [
             Counter(root()[0].get("Body").split()),
             Counter(root()[1].get("Body").split()),
@@ -94,6 +137,14 @@ def list_counters_words_bodys():
         ]
 
 def df_question():
+    """
+    returns a Pandas.Dataframe
+
+    Return:
+    ------
+
+        Dataframe: columns = id,score,creation_date_q
+    """
     return  pd.DataFrame({
                         "id":[int(root()[1].get("Id"))],
                         'score':[int(root()[1].get("Score"))],
@@ -101,12 +152,28 @@ def df_question():
                         })
 
 def df_answer():
+    """
+    returns a Pandas.Dataframe
+    Return:
+    ------
+
+        Dataframe: columns = creation_date_a,id
+    """
     return  pd.DataFrame({
                         "creation_date_a":[root()[3].get("CreationDate").split('T')[0]],
                         "id":[int(root()[3].get("ParentID"))],
                         })
 
 def lista_dfs():
+    """
+    returns a list with two Pandas.Dataframes
+
+    Return:
+    ------
+
+        Dataframe_1: columns = id,score,creation_date_q
+        Dataframe_2: columns = id,score,creation_date_q
+    """
     return  [
         pd.DataFrame({
                         "id":[int(root()[1].get("Id"))],
